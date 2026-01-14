@@ -4,6 +4,8 @@
 **Type:** Go Library / Kubernetes Controller Framework
 **License:** Apache 2.0
 
+> **Documentation Version:** 1.0.0 | **Last Updated:** 2026-01-14 | **Compatible with:** nah v0.x.x+
+
 ---
 
 ## 📋 Quick Summary
@@ -238,6 +240,13 @@ nah/
 
 ### External Documentation
 - Apache License 2.0 in `LICENSE` file
+
+### Development Assistance
+- **CLAUDE.md** - Guidance for Claude Code AI assistant
+  - Development commands reference
+  - Architecture overview for AI context
+  - Code patterns and best practices
+  - Quick reference for common tasks
 
 ---
 

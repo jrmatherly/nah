@@ -259,6 +259,7 @@
   ],
   "documentation": {
     "inline": "Godoc comments throughout",
+    "claude": "CLAUDE.md",
     "memories": [
       "project_overview.md",
       "codebase_architecture.md",
