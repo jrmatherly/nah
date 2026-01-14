@@ -1,0 +1,304 @@
+{
+  "project": {
+    "name": "nah",
+    "repository": "github.com/obot-platform/nah",
+    "type": "Go Library / Kubernetes Controller Framework",
+    "license": "Apache 2.0",
+    "goVersion": "1.24.0",
+    "generated": "2026-01-14"
+  },
+  "statistics": {
+    "totalFiles": 68,
+    "testFiles": 0,
+    "packages": 24,
+    "linesOfCode": "~5000+"
+  },
+  "entryPoints": {
+    "main": {
+      "file": "router.go",
+      "functions": [
+        "DefaultRouter(routerName, scheme) - Create router with defaults",
+        "DefaultOptions(routerName, scheme) - Generate standard options",
+        "NewRouter(handlerName, opts) - Create custom router"
+      ]
+    },
+    "codegen": {
+      "file": "cmd/deepcopy/main.go",
+      "purpose": "Generate deep copy methods"
+    }
+  },
+  "corePackages": {
+    "router": {
+      "path": "pkg/router/",
+      "files": 15,
+      "purpose": "Event routing and handler management",
+      "keyExports": [
+        "Router",
+        "RouteBuilder",
+        "HandlerSet",
+        "Middleware types",
+        "Filter types"
+      ],
+      "subpackages": ["tester"]
+    },
+    "backend": {
+      "path": "pkg/backend/",
+      "files": 1,
+      "purpose": "Kubernetes client abstraction",
+      "keyExports": ["Backend", "Watcher", "Trigger", "CacheFactory"]
+    },
+    "apply": {
+      "path": "pkg/apply/",
+      "files": 11,
+      "purpose": "Declarative resource management",
+      "keyExports": ["Apply", "DesiredSet", "New()", "Ensure()"],
+      "subpackages": ["objectset"]
+    },
+    "runtime": {
+      "path": "pkg/runtime/",
+      "files": 10,
+      "purpose": "Controller runtime configuration",
+      "keyExports": [
+        "Config",
+        "NewRuntimeWithConfig()",
+        "NewRuntimeForNamespace()"
+      ]
+    },
+    "leader": {
+      "path": "pkg/leader/",
+      "files": 2,
+      "purpose": "Leader election",
+      "keyExports": ["ElectionConfig", "NewDefaultElectionConfig()"],
+      "strategies": ["lease-based", "file-based"]
+    },
+    "watcher": {
+      "path": "pkg/watcher/",
+      "files": 1,
+      "purpose": "Resource watching and event triggering",
+      "features": [
+        "sync.Map optimization",
+        "GVK-based threadiness",
+        "Multiple worker queues",
+        "On-demand workers"
+      ]
+    }
+  },
+  "supportingPackages": [
+    {
+      "name": "typed",
+      "path": "pkg/typed/",
+      "files": 4,
+      "purpose": "Type-safe wrappers"
+    },
+    {
+      "name": "data",
+      "path": "pkg/data/",
+      "files": 2,
+      "purpose": "Data manipulation"
+    },
+    {
+      "name": "yaml",
+      "path": "pkg/yaml/",
+      "files": 1,
+      "purpose": "YAML processing"
+    },
+    {
+      "name": "deepcopy",
+      "path": "pkg/deepcopy/",
+      "files": 1,
+      "purpose": "Deep copy utilities"
+    },
+    {
+      "name": "restconfig",
+      "path": "pkg/restconfig/",
+      "files": 3,
+      "purpose": "REST configuration"
+    },
+    {
+      "name": "mapper",
+      "path": "pkg/mapper/",
+      "files": 1,
+      "purpose": "Resource mapping"
+    },
+    {
+      "name": "urlbuilder",
+      "path": "pkg/urlbuilder/",
+      "files": 1,
+      "purpose": "URL construction"
+    },
+    {
+      "name": "conditions",
+      "path": "pkg/conditions/",
+      "files": 1,
+      "purpose": "Status conditions"
+    },
+    {
+      "name": "fields",
+      "path": "pkg/fields/",
+      "files": 1,
+      "purpose": "Field selectors"
+    },
+    {
+      "name": "name",
+      "path": "pkg/name/",
+      "files": 1,
+      "purpose": "Naming conventions"
+    },
+    {
+      "name": "webhook",
+      "path": "pkg/webhook/",
+      "files": 2,
+      "purpose": "Admission webhooks"
+    },
+    {
+      "name": "handlers",
+      "path": "pkg/handlers/",
+      "files": 1,
+      "purpose": "Request handlers"
+    },
+    {
+      "name": "log",
+      "path": "pkg/log/",
+      "files": 1,
+      "purpose": "Logging utilities"
+    },
+    {
+      "name": "logrus",
+      "path": "pkg/logrus/",
+      "files": 1,
+      "purpose": "Logrus configuration"
+    },
+    {
+      "name": "version",
+      "path": "pkg/version/",
+      "files": 1,
+      "purpose": "Version information"
+    },
+    {
+      "name": "merr",
+      "path": "pkg/merr/",
+      "files": 1,
+      "purpose": "Multi-error handling"
+    },
+    {
+      "name": "randomtoken",
+      "path": "pkg/randomtoken/",
+      "files": 1,
+      "purpose": "Token generation"
+    },
+    {
+      "name": "ratelimit",
+      "path": "pkg/ratelimit/",
+      "files": 1,
+      "purpose": "Rate limiting"
+    },
+    {
+      "name": "untriggered",
+      "path": "pkg/untriggered/",
+      "files": 1,
+      "purpose": "Skip reconciliation"
+    }
+  ],
+  "dependencies": {
+    "kubernetes": {
+      "k8s.io/client-go": "v0.31.1",
+      "k8s.io/apimachinery": "v0.31.1",
+      "k8s.io/api": "v0.31.1",
+      "sigs.k8s.io/controller-runtime": "v0.19.0",
+      "sigs.k8s.io/controller-tools": "v0.16.4",
+      "k8s.io/utils": "v0.0.0-20240921022957"
+    },
+    "observability": {
+      "go.opentelemetry.io/otel": "v1.35.0",
+      "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp": "v0.60.0"
+    },
+    "logging": {
+      "github.com/sirupsen/logrus": "v1.9.3",
+      "github.com/bombsimon/logrusr/v4": "v4.1.0"
+    },
+    "testing": {
+      "github.com/stretchr/testify": "v1.10.0",
+      "github.com/hexops/autogold/v2": "v2.2.1"
+    },
+    "utilities": {
+      "github.com/google/uuid": "v1.6.0",
+      "gomodules.xyz/jsonpatch/v2": "v2.4.0",
+      "golang.org/x/time": "v0.7.0",
+      "github.com/moby/locker": "v1.0.1"
+    }
+  },
+  "buildCommands": {
+    "setup": "make setup-ci-env",
+    "lint": "make validate",
+    "test": "make test",
+    "ci": "make validate-ci"
+  },
+  "architecturePatterns": [
+    "Builder Pattern",
+    "Factory Pattern",
+    "Interface Segregation",
+    "Middleware/Filter Pattern",
+    "Reconciliation Loop"
+  ],
+  "keyFeatures": [
+    "Kubernetes controller routing",
+    "Leader election (lease and file-based)",
+    "Declarative resource management",
+    "Backend abstraction with caching",
+    "OpenTelemetry integration",
+    "GVK-specific configuration",
+    "On-demand worker spawning",
+    "Webhook support"
+  ],
+  "usageFlow": [
+    "Scheme → RESTConfig → Runtime → Backend → Router",
+    "Router.Type(Resource) → Filters → Handler",
+    "Router.Start() → Leader Election → Handlers → Watchers",
+    "Watcher → Trigger → Router → Middleware → Handler → Apply",
+    "Handler → DesiredSet → Apply → Compare → Patch/Create/Delete"
+  ],
+  "documentation": {
+    "inline": "Godoc comments throughout",
+    "memories": [
+      "project_overview.md",
+      "codebase_architecture.md",
+      "design_patterns_and_guidelines.md",
+      "code_style_and_conventions.md",
+      "task_completion_workflow.md",
+      "suggested_commands.md"
+    ],
+    "license": "LICENSE (Apache 2.0)"
+  },
+  "cicd": {
+    "platform": "GitHub Actions",
+    "workflow": ".github/workflows/test.yaml",
+    "steps": [
+      "setup-go",
+      "make setup-ci-env",
+      "make validate-ci",
+      "make validate",
+      "make test"
+    ]
+  },
+  "searchKeywords": [
+    "Kubernetes",
+    "controller",
+    "operator",
+    "reconciliation",
+    "apply",
+    "leader election",
+    "router",
+    "watcher",
+    "backend",
+    "cache",
+    "webhook",
+    "OpenTelemetry",
+    "tracing",
+    "handler",
+    "middleware",
+    "filter",
+    "GVK",
+    "CRD",
+    "custom resource"
+  ]
+}
