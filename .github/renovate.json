@@ -1,28 +1,20 @@
 {
-	"labels": ["renovate"],
-	"extends": [
-		"config:base", ":disableDependencyDashboard"
-	],
-	"postUpdateOptions": ["gomodTidy"],
-	"packageRules": [
-		{
-			"matchPackagePatterns": [
-				"^golang.*"
-			],
-			"groupName": "golang",
-			"groupSlug": "golang"
-		}
-	],
-	"regexManagers": [
-		{
-			"fileMatch": [
-				"^.github/workflows/.*"
-			],
-			"matchStrings": [
-				"go-version: (?<currentValue>.*?)\n"
-			],
-			"depNameTemplate": "golang",
-			"datasourceTemplate": "docker"
-		}
-	]
+  "labels": ["renovate"],
+  "extends": ["config:base", ":disableDependencyDashboard"],
+  "postUpdateOptions": ["gomodTidy"],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["^golang.*"],
+      "groupName": "golang",
+      "groupSlug": "golang"
+    }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["^.github/workflows/.*"],
+      "matchStrings": ["go-version: (?<currentValue>.*?)\n"],
+      "depNameTemplate": "golang",
+      "datasourceTemplate": "docker"
+    }
+  ]
 }
