@@ -1,0 +1,26 @@
+# CODEOWNERS for nah
+# These owners will be requested for review when someone opens a PR
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything
+* @jrmatherly
+
+# Core library code (API stability critical)
+/pkg/ @jrmatherly
+/router.go @jrmatherly
+
+# Dependency management (security-sensitive)
+/go.mod @jrmatherly
+/go.sum @jrmatherly
+
+# CI/CD workflows
+/.github/ @jrmatherly
+
+# Documentation
+/docs/ @jrmatherly
+/README.md @jrmatherly
+/CONTRIBUTING.md @jrmatherly
+/SECURITY.md @jrmatherly
+
+# Code generation
+/cmd/deepcopy/ @jrmatherly
