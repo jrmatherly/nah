@@ -88,6 +88,8 @@ func getClients(cfg Config, scheme *runtime.Scheme) (uncachedClient client.WithW
 		namespaces[cfg.Namespace] = cache.Config{}
 	}
 
+	// Configure cache with longer sync period to reduce bookmark churn in ephemeral K8s environments
+	syncPeriod := 10 * time.Minute
 	theCache, err = cache.New(cfg.Rest, cache.Options{
 		HTTPClient:           httpClient,
 		Mapper:               mapper,
@@ -96,6 +98,7 @@ func getClients(cfg Config, scheme *runtime.Scheme) (uncachedClient client.WithW
 		DefaultFieldSelector: cfg.FieldSelector,
 		DefaultLabelSelector: cfg.LabelSelector,
 		ByObject:             cfg.ByObject,
+		SyncPeriod:           &syncPeriod,
 	})
 	if err != nil {
 		return nil, nil, nil, err
