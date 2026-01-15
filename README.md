@@ -277,7 +277,7 @@ See [PROJECT_INDEX.md](PROJECT_INDEX.md) for a detailed overview.
 ## 🛠️ Development
 
 ### Prerequisites
-- Go 1.24.0 or later
+- Go 1.25.0 or later
 - Kubernetes cluster (for testing)
 - golangci-lint (for linting)
 
