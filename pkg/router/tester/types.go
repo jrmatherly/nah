@@ -33,6 +33,10 @@ func (c Client) Watch(ctx context.Context, obj kclient.ObjectList, opts ...kclie
 	panic("unsupported")
 }
 
+func (c *Client) Apply(ctx context.Context, obj runtime.ApplyConfiguration, opts ...kclient.ApplyOption) error {
+	panic("unsupported: Apply is not implemented in test client")
+}
+
 func (c Client) objects() []kclient.Object {
 	return append(append(c.Objects, c.Created...), c.Updated...)
 }

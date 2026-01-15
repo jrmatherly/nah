@@ -2,6 +2,7 @@ package router
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/obot-platform/nah/pkg/backend"
 	"k8s.io/apimachinery/pkg/api/meta"
@@ -87,6 +88,27 @@ func (w *writer) Create(ctx context.Context, obj kclient.Object, opts ...kclient
 		}
 	}
 	return w.client.Create(ctx, obj, opts...)
+}
+
+func (w *writer) Apply(ctx context.Context, obj runtime.ApplyConfiguration, opts ...kclient.ApplyOption) error {
+	// ApplyConfiguration doesn't have standard metadata accessors like Object does.
+	// We'll register the watch with the underlying runtime.Object representation if available.
+	// The actual watching will be triggered when the Apply operation completes.
+	if runtimeObj, ok := obj.(runtime.Object); ok {
+		if clientObj, ok := runtimeObj.(kclient.Object); ok {
+			if err := w.registry.Watch(runtimeObj, clientObj.GetNamespace(), clientObj.GetName(), nil, nil); err != nil {
+				return err
+			}
+		}
+	}
+	// Delegate to the underlying client's Apply method
+	if applier, ok := w.client.(interface {
+		Apply(context.Context, runtime.ApplyConfiguration, ...kclient.ApplyOption) error
+	}); ok {
+		return applier.Apply(ctx, obj, opts...)
+	}
+	// If the underlying client doesn't support Apply, return an error
+	return fmt.Errorf("underlying client does not support Apply operation")
 }
 
 type subResourceClient struct {

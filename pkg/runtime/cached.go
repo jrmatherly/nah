@@ -288,6 +288,13 @@ func (c *cacheClient) RESTMapper() meta.RESTMapper {
 	return c.cached.RESTMapper()
 }
 
+func (c *cacheClient) Apply(ctx context.Context, obj runtime.ApplyConfiguration, opts ...kclient.ApplyOption) error {
+	ctx, span := tracer.Start(ctx, "apply")
+	defer span.End()
+
+	return c.uncached.Apply(ctx, obj, opts...)
+}
+
 type subResourceClient struct {
 	c      *cacheClient
 	writer kclient.SubResourceWriter
