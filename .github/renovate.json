@@ -1,8 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "labels": ["renovate"],
+  "labels": [
+    "renovate"
+  ],
   "extends": [
-    "config:base",
+    "config:recommended",
     "helpers:pinGitHubActionDigests",
     ":semanticCommits",
     ":dependencyDashboard",
@@ -11,124 +13,199 @@
   "dependencyDashboardTitle": "Renovate Dashboard :robot:",
   "branchPrefix": "renovate/",
   "timezone": "America/New_York",
-  "postUpdateOptions": ["gomodTidy"],
+  "postUpdateOptions": [
+    "gomodTidy"
+  ],
   "rebaseWhen": "conflicted",
   "prConcurrentLimit": 3,
   "prHourlyLimit": 1,
-  "schedule": ["after 10pm", "before 6am"],
+  "schedule": [
+    "after 10pm",
+    "before 6am"
+  ],
   "osvVulnerabilityAlerts": true,
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": ["before 4am on monday"],
+    "schedule": [
+      "before 4am on monday"
+    ],
     "automerge": true,
     "automergeType": "branch"
   },
   "vulnerabilityAlerts": {
     "enabled": true,
-    "labels": ["security", "priority/high"],
+    "labels": [
+      "security",
+      "priority/high"
+    ],
     "automerge": true,
-    "schedule": ["at any time"]
+    "schedule": [
+      "at any time"
+    ]
   },
   "packageRules": [
     {
       "description": "Group golang packages",
-      "matchPackagePatterns": ["^golang.*"],
       "groupName": "golang",
-      "groupSlug": "golang"
+      "groupSlug": "golang",
+      "matchPackageNames": [
+        "/^golang.*/"
+      ]
     },
     {
       "description": "Group Kubernetes packages (must update in lockstep)",
       "groupName": "kubernetes packages",
-      "matchPackageNames": ["/^k8s.io//", "/^sigs.k8s.io//"]
+      "matchPackageNames": [
+        "/^k8s.io//",
+        "/^sigs.k8s.io//"
+      ]
     },
     {
       "description": "Disable automerge for Kubernetes major updates (breaking changes affect downstream consumers like obot-entraid)",
-      "matchPackageNames": ["/^k8s.io//", "/^sigs.k8s.io//"],
-      "matchUpdateTypes": ["major"],
+      "matchPackageNames": [
+        "/^k8s.io//",
+        "/^sigs.k8s.io//"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "automerge": false,
-      "labels": ["breaking-change", "requires-coordination"]
+      "labels": [
+        "breaking-change",
+        "requires-coordination"
+      ]
     },
     {
       "description": "Disable automerge for controller-runtime major updates (tied to Kubernetes API versions)",
-      "matchPackageNames": ["sigs.k8s.io/controller-runtime"],
-      "matchUpdateTypes": ["major"],
+      "matchPackageNames": [
+        "sigs.k8s.io/controller-runtime"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "automerge": false,
-      "labels": ["breaking-change", "requires-coordination"]
+      "labels": [
+        "breaking-change",
+        "requires-coordination"
+      ]
     },
     {
       "description": "Group OpenTelemetry packages",
       "groupName": "opentelemetry packages",
-      "matchPackageNames": ["/^go.opentelemetry.io//"]
+      "matchPackageNames": [
+        "/^go.opentelemetry.io//"
+      ]
     },
     {
       "description": "Group testing packages",
       "groupName": "testing packages",
-      "matchPackageNames": ["/testify/", "/autogold/"]
+      "matchPackageNames": [
+        "/testify/",
+        "/autogold/"
+      ]
     },
     {
       "description": "Group logging packages",
       "groupName": "logging packages",
-      "matchPackageNames": ["github.com/sirupsen/logrus"]
+      "matchPackageNames": [
+        "github.com/sirupsen/logrus"
+      ]
     },
     {
       "description": "Auto-merge GitHub Actions (grouped)",
-      "matchManagers": ["github-actions"],
+      "matchManagers": [
+        "github-actions"
+      ],
       "groupName": "github-actions",
       "groupSlug": "github-actions",
-      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
       "automerge": true,
       "automergeType": "branch",
       "minimumReleaseAge": "3 days"
     },
     {
       "description": "Auto-merge Go patch updates",
-      "matchManagers": ["gomod"],
-      "matchUpdateTypes": ["patch", "digest"],
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "digest"
+      ],
       "automerge": true,
       "automergeType": "pr",
       "minimumReleaseAge": "3 days"
     },
     {
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "semanticCommitType": "feat",
       "commitMessagePrefix": "{{semanticCommitType}}({{semanticCommitScope}})!:",
       "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
-      "labels": ["type/major"]
+      "labels": [
+        "type/major"
+      ]
     },
     {
-      "matchUpdateTypes": ["minor"],
+      "matchUpdateTypes": [
+        "minor"
+      ],
       "semanticCommitType": "feat",
       "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
-      "labels": ["type/minor"]
+      "labels": [
+        "type/minor"
+      ]
     },
     {
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "semanticCommitType": "fix",
       "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )",
-      "labels": ["type/patch"]
+      "labels": [
+        "type/patch"
+      ]
     },
     {
-      "matchUpdateTypes": ["digest"],
+      "matchUpdateTypes": [
+        "digest"
+      ],
       "semanticCommitType": "chore",
       "commitMessageExtra": "( {{currentDigestShort}} → {{newDigestShort}} )",
-      "labels": ["type/digest"]
+      "labels": [
+        "type/digest"
+      ]
     },
     {
-      "matchManagers": ["github-actions"],
+      "matchManagers": [
+        "github-actions"
+      ],
       "semanticCommitType": "ci",
       "semanticCommitScope": "github-action",
       "commitMessageTopic": "action {{depName}}"
     },
     {
-      "matchManagers": ["gomod"],
+      "matchManagers": [
+        "gomod"
+      ],
       "semanticCommitScope": "go",
       "commitMessageTopic": "module {{depName}}"
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["^.github/workflows/.*"],
-      "matchStrings": ["go-version: (?<currentValue>.*?)\\n"],
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^.github/workflows/.*/"
+      ],
+      "matchStrings": [
+        "go-version: (?<currentValue>.*?)\\n"
+      ],
       "depNameTemplate": "golang",
       "datasourceTemplate": "docker"
     }
