@@ -197,6 +197,13 @@ func (b *Backend) GetInformerForKind(ctx context.Context, gvk schema.GroupVersio
 	return i.(kcache.SharedIndexInformer), nil
 }
 
+func (b *Backend) Apply(ctx context.Context, obj runtime.ApplyConfiguration, opts ...kclient.ApplyOption) error {
+	ctx, span := tracer.Start(ctx, "apply")
+	defer span.End()
+
+	return b.cacheClient.Apply(ctx, obj, opts...)
+}
+
 func (b *Backend) hasStarted() bool {
 	b.startedLock.RLock()
 	defer b.startedLock.RUnlock()
