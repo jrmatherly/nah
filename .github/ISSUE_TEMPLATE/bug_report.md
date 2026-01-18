@@ -27,7 +27,7 @@ Steps to reproduce the behavior:
 package main
 
 import (
-    "github.com/obot-platform/nah"
+    "github.com/jrmatherly/nah"
     // ...
 )
 
