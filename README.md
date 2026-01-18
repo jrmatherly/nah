@@ -144,6 +144,7 @@ func (h *MyHandler) Handle(req router.Request, resp router.Response) error {
 ### Router
 
 The `Router` is the central component that:
+
 - Manages the controller lifecycle (start, stop)
 - Routes Kubernetes events to registered handlers
 - Integrates with leader election
@@ -226,16 +227,19 @@ opts := &nah.Options{
 ## 📖 Documentation
 
 ### Getting Started
+
 - [Quick Start](#-quick-start) - Get up and running in minutes
 - [Examples](docs/examples/) - Complete working examples
 - [API Reference](docs/api/) - Detailed API documentation
 
 ### Architecture
+
 - [Design Patterns](docs/architecture/patterns.md) - Core design patterns used
 - [Component Overview](docs/architecture/components.md) - Architecture deep dive
 - [Architecture Decisions](docs/architecture/adr/) - ADRs and design rationale
 
 ### Guides
+
 - [Writing Controllers](docs/guides/controllers.md) - Controller development guide
 - [Resource Management](docs/guides/apply.md) - Using the Apply package
 - [Leader Election](docs/guides/leader-election.md) - HA controller setup
@@ -243,6 +247,7 @@ opts := &nah.Options{
 - [Performance Tuning](docs/guides/performance.md) - Optimization strategies
 
 ### Package Documentation
+
 - [router](docs/packages/router.md) - Event routing and handlers
 - [backend](docs/packages/backend.md) - Kubernetes client abstraction
 - [apply](docs/packages/apply.md) - Declarative resource management
@@ -251,6 +256,7 @@ opts := &nah.Options{
 - [watcher](docs/packages/watcher.md) - Resource watching
 
 ### For AI Assistants
+
 - [CLAUDE.md](CLAUDE.md) - Guidance for Claude Code when working in this repository
 
 ## 🏗️ Project Structure
@@ -277,6 +283,7 @@ See [PROJECT_INDEX.md](PROJECT_INDEX.md) for a detailed overview.
 ## 🛠️ Development
 
 ### Prerequisites
+
 - Go 1.25.0 or later
 - Kubernetes cluster (for testing)
 - golangci-lint (for linting)
@@ -310,6 +317,7 @@ make validate-ci
 ### Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on:
+
 - Code style and conventions
 - Development workflow
 - Pull request process

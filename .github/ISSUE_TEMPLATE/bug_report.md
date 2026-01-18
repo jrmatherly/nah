@@ -61,6 +61,7 @@ What actually happened? Include error messages, stack traces, or unexpected outp
 <!-- If applicable, describe your controller setup -->
 
 **Resources being watched:**
+
 - <!-- e.g., ConfigMaps in namespace "default" -->
 
 **Leader election:** <!-- enabled/disabled -->
@@ -69,6 +70,7 @@ What actually happened? Include error messages, stack traces, or unexpected outp
 ## Additional Context
 
 Add any other context about the problem here. For example:
+
 - Does this happen consistently or intermittently?
 - Did this work in a previous version? If so, which version?
 - Are there any workarounds you've found?

@@ -47,11 +47,13 @@ func New(handlerSet *HandlerSet, electionConfig *leader.ElectionConfig, healthzP
 Creates a new Router with the given handler set and election configuration.
 
 **Parameters:**
+
 - `handlerSet` - Collection of handlers for different resource types
 - `electionConfig` - Leader election configuration (nil for no election)
 - `healthzPort` - Port for health check endpoint (default: 8888)
 
 **Example:**
+
 ```go
 handlerSet := router.NewHandlerSet("my-controller", scheme, backend)
 r := router.New(handlerSet, electionConfig, 8888)
@@ -68,12 +70,15 @@ func (r *Router) Start(ctx context.Context) error
 Starts the controller and begins watching resources. This method blocks until the context is cancelled or an error occurs.
 
 **Parameters:**
+
 - `ctx` - Context for lifecycle management
 
 **Returns:**
+
 - `error` - Error if startup fails
 
 **Example:**
+
 ```go
 ctx := context.Background()
 if err := r.Start(ctx); err != nil {
@@ -90,6 +95,7 @@ func (r *Router) Backend() backend.Backend
 Returns the Backend interface for Kubernetes operations.
 
 **Returns:**
+
 - `backend.Backend` - Backend for client operations
 
 ##### Stopped
@@ -101,9 +107,11 @@ func (r *Router) Stopped() <-chan struct{}
 Returns a channel that is closed when the router has stopped.
 
 **Returns:**
+
 - `<-chan struct{}` - Channel closed on stop
 
 **Example:**
+
 ```go
 <-r.Stopped()
 fmt.Println("Router stopped")
@@ -118,6 +126,7 @@ func (r *Router) Handle(objType client.Object, h Handler)
 Registers a handler for a specific object type without filters.
 
 **Parameters:**
+
 - `objType` - Kubernetes object type (e.g., `&corev1.Pod{}`)
 - `h` - Handler implementation
 
@@ -130,6 +139,7 @@ func (r *Router) HandleFunc(objType client.Object, h HandlerFunc)
 Registers a handler function for a specific object type without filters.
 
 **Parameters:**
+
 - `objType` - Kubernetes object type
 - `h` - Handler function
 
@@ -142,6 +152,7 @@ func (r *Router) PosStart(f func(context.Context, client.Client))
 Registers a function to be called after the controller starts.
 
 **Parameters:**
+
 - `f` - Function to call post-start
 
 ##### DumpTriggers
@@ -153,9 +164,11 @@ func (r *Router) DumpTriggers(indent bool) ([]byte, error)
 Returns a JSON representation of active triggers for debugging.
 
 **Parameters:**
+
 - `indent` - Whether to indent the JSON output
 
 **Returns:**
+
 - `[]byte` - JSON-encoded trigger data
 - `error` - Error if serialization fails
 
@@ -192,12 +205,15 @@ func (r RouteBuilder) Type(objType client.Object) RouteBuilder
 Specifies the Kubernetes object type to watch.
 
 **Parameters:**
+
 - `objType` - Object type (e.g., `&corev1.ConfigMap{}`)
 
 **Returns:**
+
 - `RouteBuilder` - Builder for chaining
 
 **Example:**
+
 ```go
 r.Type(&corev1.Pod{}).HandlerFunc(handler)
 ```
@@ -211,12 +227,15 @@ func (r RouteBuilder) Namespace(namespace string) RouteBuilder
 Filters resources to a specific namespace.
 
 **Parameters:**
+
 - `namespace` - Namespace name
 
 **Returns:**
+
 - `RouteBuilder` - Builder for chaining
 
 **Example:**
+
 ```go
 r.Type(&corev1.Pod{}).
     Namespace("default").
@@ -232,9 +251,11 @@ func (r RouteBuilder) Name(name string) RouteBuilder
 Filters resources to a specific name.
 
 **Parameters:**
+
 - `name` - Resource name
 
 **Returns:**
+
 - `RouteBuilder` - Builder for chaining
 
 ##### Selector
@@ -246,12 +267,15 @@ func (r RouteBuilder) Selector(sel labels.Selector) RouteBuilder
 Filters resources by label selector.
 
 **Parameters:**
+
 - `sel` - Label selector
 
 **Returns:**
+
 - `RouteBuilder` - Builder for chaining
 
 **Example:**
+
 ```go
 r.Type(&corev1.Pod{}).
     Selector(labels.Set{"app": "my-app"}).
@@ -267,12 +291,15 @@ func (r RouteBuilder) FieldSelector(sel fields.Selector) RouteBuilder
 Filters resources by field selector.
 
 **Parameters:**
+
 - `sel` - Field selector
 
 **Returns:**
+
 - `RouteBuilder` - Builder for chaining
 
 **Example:**
+
 ```go
 r.Type(&corev1.Pod{}).
     FieldSelector(fields.OneTermEqualSelector("spec.nodeName", "node-1")).
@@ -288,12 +315,15 @@ func (r RouteBuilder) Middleware(m ...Middleware) RouteBuilder
 Adds middleware to the handler chain.
 
 **Parameters:**
+
 - `m` - One or more middleware instances
 
 **Returns:**
+
 - `RouteBuilder` - Builder for chaining
 
 **Example:**
+
 ```go
 r.Type(&corev1.Pod{}).
     Middleware(ErrorPrefix("pod-handler")).
@@ -309,6 +339,7 @@ func (r RouteBuilder) IncludeRemoved() RouteBuilder
 Includes resources marked for deletion (with deletion timestamp).
 
 **Returns:**
+
 - `RouteBuilder` - Builder for chaining
 
 ##### IncludeFinalizing
@@ -320,6 +351,7 @@ func (r RouteBuilder) IncludeFinalizing() RouteBuilder
 Includes resources in the finalizing state.
 
 **Returns:**
+
 - `RouteBuilder` - Builder for chaining
 
 ##### Handler
@@ -331,6 +363,7 @@ func (r RouteBuilder) Handler(h Handler)
 Registers a Handler implementation.
 
 **Parameters:**
+
 - `h` - Handler instance
 
 ##### HandlerFunc
@@ -342,9 +375,11 @@ func (r RouteBuilder) HandlerFunc(h HandlerFunc)
 Registers a handler function.
 
 **Parameters:**
+
 - `h` - Handler function
 
 **Example:**
+
 ```go
 r.Type(&corev1.ConfigMap{}).
     Namespace("default").
@@ -364,6 +399,7 @@ func (r RouteBuilder) Finalize(finalizerID string, h Handler)
 Registers a finalizer handler for cleanup on deletion.
 
 **Parameters:**
+
 - `finalizerID` - Unique finalizer identifier
 - `h` - Handler for finalization
 
@@ -376,10 +412,12 @@ func (r RouteBuilder) FinalizeFunc(finalizerID string, h HandlerFunc)
 Registers a finalizer handler function.
 
 **Parameters:**
+
 - `finalizerID` - Unique finalizer identifier
 - `h` - Handler function for finalization
 
 **Example:**
+
 ```go
 r.Type(&MyResource{}).
     FinalizeFunc("my-finalizer", func(req Request, resp Response) error {
@@ -427,6 +465,7 @@ type Request struct {
 ```
 
 **Fields:**
+
 - `Object` - The Kubernetes object being processed
 - `Ctx` - Request context
 - `FromController` - Whether event originated from controller
@@ -445,6 +484,7 @@ type Response interface {
 ```
 
 **Methods:**
+
 - `Backend()` - Returns backend for Kubernetes operations
 - `Objects()` - Returns object set for applying resources
 
@@ -467,6 +507,7 @@ func (e ErrorPrefix) Handle(req Request, resp Response, next Handler) error
 ```
 
 **Example:**
+
 ```go
 r.Type(&corev1.Pod{}).
     Middleware(ErrorPrefix("pod-controller")).
@@ -583,6 +624,7 @@ r.Type(&MyResource{}).
 ```
 
 **Important:**
+
 - Finalizer is added automatically on first reconciliation
 - Finalizer is removed automatically after successful cleanup
 - Handler is called when resource has deletion timestamp

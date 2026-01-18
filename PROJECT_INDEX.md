@@ -58,6 +58,7 @@ nah/
 ## 🚀 Entry Points
 
 ### Primary API Entry Point
+
 - **File:** `router.go:1`
 - **Purpose:** Main package interface for creating and configuring routers
 - **Key Functions:**
@@ -66,6 +67,7 @@ nah/
   - `NewRouter(handlerName, opts)` - Create router with custom options
 
 ### Code Generation Tool
+
 - **File:** `cmd/deepcopy/main.go`
 - **Purpose:** Generate deep copy methods for Kubernetes types
 
@@ -74,9 +76,11 @@ nah/
 ## 📦 Core Modules
 
 ### Router (`pkg/router/`)
+
 **Purpose:** Event routing and handler management for Kubernetes resources
 
 **Key Exports:**
+
 - `Router` - Main controller router
 - `RouteBuilder` - Fluent API for route configuration
 - `HandlerSet` - Collection of handlers
@@ -84,14 +88,17 @@ nah/
 - Filters: `NameNamespaceFilter`, `SelectorFilter`, `FieldSelectorFilter`
 
 **Sub-packages:**
+
 - `tester/` - Testing utilities for router handlers
 
 **Files:** 15 (handlers.go, router.go, trigger.go, save.go, response_wrapper.go, matcher.go, healthz.go, handler.go, getorcreate.go, finalizer.go, client.go, types.go)
 
 ### Backend (`pkg/backend/`)
+
 **Purpose:** Abstraction layer over Kubernetes client operations
 
 **Key Interfaces:**
+
 - `Backend` - Main Kubernetes operations interface
 - `Watcher` - Resource watching
 - `Trigger` - Event triggering
@@ -100,9 +107,11 @@ nah/
 **Provides:** Unified API for Kubernetes operations with caching
 
 ### Apply (`pkg/apply/`)
+
 **Purpose:** Declarative resource management and reconciliation
 
 **Key Exports:**
+
 - `Apply` interface - Apply desired state operations
 - `DesiredSet` - Desired vs actual state management
 - `New()` - Create apply instance
@@ -111,14 +120,17 @@ nah/
 **Pattern:** Similar to `kubectl apply` with owner reference tracking
 
 **Sub-packages:**
+
 - `objectset/` - Object set management utilities
 
 **Files:** 11 (apply.go, desiredset*.go, patch_style.go, reconcilers.go)
 
 ### Runtime (`pkg/runtime/`)
+
 **Purpose:** Controller runtime configuration and lifecycle
 
 **Key Exports:**
+
 - `Config` - Runtime configuration
 - `NewRuntimeWithConfig()` - Create configured runtime
 - `NewRuntimeForNamespace()` - Namespace-scoped runtime
@@ -127,22 +139,27 @@ nah/
 **Files:** 10 (backend.go, cached.go, clients.go, controller.go, copy.go, errorcontroller.go, sharedcontroller.go, sharedcontrollerfactory.go, sharedhandler.go, transaction.go)
 
 ### Leader Election (`pkg/leader/`)
+
 **Purpose:** High availability through leader election
 
 **Key Exports:**
+
 - `ElectionConfig` - Leader election configuration
 - `NewDefaultElectionConfig()` - Default lease-based election (15s TTL)
 
 **Strategies:**
+
 - Lease-based (default) - Uses Kubernetes lease objects
 - File-based - Uses file locks (`locks/file.go`)
 
 **Files:** leader.go, locks/file.go
 
 ### Watcher (`pkg/watcher/`)
+
 **Purpose:** Monitor resources and trigger handlers
 
 **Features:**
+
 - Watch resource changes (create, update, delete)
 - Optimized trigger management with `sync.Map`
 - GVK-based threadiness control
@@ -154,12 +171,14 @@ nah/
 ## 🧩 Supporting Packages
 
 ### Data & Conversion
+
 - **typed/** - Type-safe wrappers (chan.go, funcs.go, map.go, slice.go)
 - **data/** - Data manipulation utilities (generic.go, map.go)
 - **yaml/** - YAML processing
 - **deepcopy/** - Deep copy generation and utilities
 
 ### Kubernetes Utilities
+
 - **restconfig/** - REST config helpers (restconfig.go, scheme.go, wait.go)
 - **mapper/** - Resource mapping
 - **urlbuilder/** - URL construction for K8s API
@@ -168,6 +187,7 @@ nah/
 - **name/** - Resource naming conventions
 
 ### Infrastructure
+
 - **webhook/** - Admission webhook support (router.go, match.go)
 - **handlers/** - Common request handlers
 - **log/** - Logging utilities
@@ -203,6 +223,7 @@ nah/
 ## 🔗 Key Dependencies
 
 ### Kubernetes Ecosystem
+
 - **k8s.io/client-go** v0.31.1 - Kubernetes client library
 - **k8s.io/apimachinery** v0.31.1 - Kubernetes API machinery
 - **k8s.io/api** v0.31.1 - Kubernetes API types
@@ -211,14 +232,17 @@ nah/
 - **k8s.io/utils** v0.0.0-20240921022957 - Kubernetes utilities
 
 ### Observability
+
 - **go.opentelemetry.io/otel** v1.35.0 - OpenTelemetry tracing
 - **go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp** v0.60.0 - HTTP instrumentation
 
 ### Logging
+
 - **github.com/sirupsen/logrus** v1.9.3 - Structured logging
 - **github.com/bombsimon/logrusr/v4** v4.1.0 - Logrus to logr adapter
 
 ### Utilities
+
 - **github.com/google/uuid** v1.6.0 - UUID generation
 - **gomodules.xyz/jsonpatch/v2** v2.4.0 - JSON patch operations
 - **golang.org/x/time** v0.7.0 - Time utilities (rate limiting)
@@ -229,6 +253,7 @@ nah/
 ## 📚 Documentation
 
 ### Code Documentation
+
 - Inline godoc comments throughout packages
 - Memory files in `.serena/memories/`:
   - `project_overview.md` - High-level project description
@@ -239,9 +264,11 @@ nah/
   - `suggested_commands.md` - Common commands
 
 ### External Documentation
+
 - Apache License 2.0 in `LICENSE` file
 
 ### Development Assistance
+
 - **CLAUDE.md** - Guidance for Claude Code AI assistant
   - Development commands reference
   - Architecture overview for AI context
@@ -253,11 +280,13 @@ nah/
 ## 📝 Quick Start
 
 ### Installation
+
 ```bash
 go get github.com/obot-platform/nah
 ```
 
 ### Basic Usage
+
 ```go
 import "github.com/obot-platform/nah"
 
@@ -277,6 +306,7 @@ router.Start(ctx)
 ```
 
 ### Build Commands
+
 ```bash
 make setup-ci-env   # Install golangci-lint
 make validate       # Run linter
@@ -289,22 +319,27 @@ make validate-ci    # Check for dirty repo
 ## 🏗️ Architecture Patterns
 
 ### Builder Pattern
+
 - `RouteBuilder` for fluent route configuration
 - Options structs with `complete()` methods
 
 ### Factory Pattern
+
 - `New()` constructors with explicit dependencies
 - `Default*()` functions for standard configurations
 
 ### Interface Segregation
+
 - Small, focused interfaces (Backend, Apply, Trigger, Watcher)
 - Easy mocking and testing
 
 ### Middleware/Filter Pattern
+
 - Handler middleware for cross-cutting concerns
 - Filters for resource selection
 
 ### Reconciliation Loop
+
 - Standard Kubernetes controller pattern
 - Watch → Queue → Handler → Apply cycle
 

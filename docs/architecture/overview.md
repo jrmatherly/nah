@@ -50,6 +50,7 @@ graph TB
 ```
 
 **Key Flow:**
+
 1. User configures Router with routes and handlers
 2. Router integrates with Leader Election
 3. Watcher subscribes to Kubernetes resources via Informers
@@ -63,6 +64,7 @@ graph TB
 ### Router
 
 The Router is the central orchestrator that:
+
 - Manages controller lifecycle (start, stop)
 - Routes Kubernetes events to handlers
 - Integrates leader election
@@ -99,6 +101,7 @@ classDiagram
 ```
 
 **Responsibilities:**
+
 - Lifecycle management
 - Event routing
 - Handler registration
@@ -143,6 +146,7 @@ classDiagram
 ```
 
 **Responsibilities:**
+
 - CRUD operations
 - Resource watching
 - Cache management
@@ -184,6 +188,7 @@ classDiagram
 ```
 
 **Responsibilities:**
+
 - Declarative reconciliation
 - Owner reference management
 - Resource pruning
@@ -222,6 +227,7 @@ sequenceDiagram
 ```
 
 **Steps:**
+
 1. Kubernetes resource changes
 2. Informer detects change
 3. Watcher triggers appropriate handler
@@ -254,6 +260,7 @@ sequenceDiagram
 ```
 
 **Steps:**
+
 1. Application configures routes
 2. Router starts
 3. Backend preloads caches
@@ -290,6 +297,7 @@ graph LR
 ```
 
 **Pattern:**
+
 - Request contains resource being processed
 - Response provides access to Backend and Apply
 - Handler implements business logic
@@ -316,6 +324,7 @@ graph TB
 ```
 
 **Workflow:**
+
 1. Retrieve current resources with owner reference
 2. Compare desired vs current state
 3. Create missing resources
@@ -330,6 +339,7 @@ graph TB
 ### 1. Interface-Based Design
 
 Small, focused interfaces enable:
+
 - Easy testing (mocking)
 - Flexible implementations
 - Clear contracts
@@ -347,6 +357,7 @@ type Apply interface {
 ### 2. Builder Pattern
 
 Fluent configuration APIs provide:
+
 - Readable code
 - Type safety
 - Chaining
@@ -361,6 +372,7 @@ r.Type(&Pod{}).
 ### 3. Declarative Reconciliation
 
 Following Kubernetes principles:
+
 - Declare desired state
 - Framework reconciles to desired state
 - Idempotent operations
@@ -369,6 +381,7 @@ Following Kubernetes principles:
 ### 4. Middleware Pattern
 
 Cross-cutting concerns as middleware:
+
 - Error handling
 - Logging
 - Metrics
@@ -430,6 +443,7 @@ graph TB
 ```
 
 **Layers:**
+
 1. **Application** - Your controller code
 2. **Framework** - nah router and builders
 3. **Abstraction** - Backend, Apply, Leader
@@ -442,6 +456,7 @@ graph TB
 ### 1. On-Demand Workers
 
 Workers spawn only when needed:
+
 - Reduces resource usage
 - Scales automatically
 - Efficient trigger handling
@@ -449,6 +464,7 @@ Workers spawn only when needed:
 ### 2. Sync.Map for Triggers
 
 Low-contention trigger management:
+
 - Read-heavy workload optimization
 - Concurrent access without locks
 - Memory-efficient
@@ -456,6 +472,7 @@ Low-contention trigger management:
 ### 3. Informer Caching
 
 Kubernetes informers provide:
+
 - Local cache for reads
 - Watch-based updates
 - Reduced API server load
@@ -463,6 +480,7 @@ Kubernetes informers provide:
 ### 4. GVK-Specific Configuration
 
 Per-resource tuning:
+
 - Custom threadiness per GVK
 - Queue splitting for high-throughput
 - Flexible worker management
@@ -484,6 +502,7 @@ graph TB
 ```
 
 **Goroutine Usage:**
+
 - Main goroutine manages lifecycle
 - Leader election runs in separate goroutine
 - Health check server runs in separate goroutine
