@@ -446,9 +446,11 @@ $RECYCLE.BIN/
 .claude/
 local_docs/
 claudedocs/
+.archive/
 
 ### Serena ###
-.serena/
+# Cache is excluded by .serena/.gitignore, memories are tracked
+.serena/cache/
 
 ### MISC ###
 **/*.swp
@@ -465,7 +467,3 @@ Pipfile*
 
 .idea/
 .vscode/
-.serena/
-.claude/
-local_docs/
-claudedocs/
