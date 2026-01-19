@@ -5,11 +5,13 @@ Welcome to the **nah** framework documentation! This directory contains comprehe
 ## 📚 Documentation Index
 
 ### Getting Started
+
 - [Quick Start](../README.md#-quick-start) - Get up and running in 5 minutes
 - [Installation](../README.md#-installation) - How to install nah
 - [Core Concepts](../README.md#-core-concepts) - Understanding nah fundamentals
 
 ### API Reference
+
 - [Router Package](packages/router.md) - Event routing and handler management
 - [Backend Package](packages/backend.md) - Kubernetes client abstraction
 - [Apply Package](packages/apply.md) - Declarative resource management
@@ -17,12 +19,14 @@ Welcome to the **nah** framework documentation! This directory contains comprehe
 - [Leader Package](packages/leader.md) - Leader election (Coming Soon)
 
 ### Architecture
+
 - [Overview](architecture/overview.md) - High-level architecture with diagrams
 - [Design Patterns](architecture/patterns.md) - Core design patterns (Coming Soon)
 - [Components](architecture/components.md) - Component deep dive (Coming Soon)
 - [ADRs](architecture/adr/) - Architecture Decision Records (Coming Soon)
 
 ### Guides
+
 - [Writing Controllers](guides/controllers.md) - Controller development guide (Coming Soon)
 - [Resource Management](guides/apply.md) - Using the Apply package (Coming Soon)
 - [Leader Election](guides/leader-election.md) - High availability setup (Coming Soon)
@@ -30,17 +34,20 @@ Welcome to the **nah** framework documentation! This directory contains comprehe
 - [Performance Tuning](guides/performance.md) - Optimization strategies (Coming Soon)
 
 ### Examples
+
 - [Basic Controller](examples/basic-controller.md) - Simple controller example (Coming Soon)
 - [Multi-Resource](examples/multi-resource.md) - Managing multiple resources (Coming Soon)
 - [Custom Middleware](examples/middleware.md) - Writing middleware (Coming Soon)
 - [Finalizers](examples/finalizers.md) - Using finalizers (Coming Soon)
 
 ### Contributing
+
 - [Contributing Guide](../CONTRIBUTING.md) - How to contribute
 - [Code Style](../CONTRIBUTING.md#code-style) - Coding standards
 - [Pull Request Process](../CONTRIBUTING.md#pull-request-process) - PR guidelines
 
 ### Development Assistance
+
 - [CLAUDE.md](../CLAUDE.md) - Guidance for Claude Code and AI assistants
 
 ---
@@ -130,18 +137,21 @@ docs/
 ## 🎯 Learning Path
 
 ### Beginner
+
 1. Read [Quick Start](../README.md#-quick-start)
 2. Understand [Core Concepts](../README.md#-core-concepts)
 3. Review [Basic Controller Example](examples/basic-controller.md)
 4. Study [Router Package](packages/router.md) documentation
 
 ### Intermediate
+
 1. Learn [Apply Package](packages/apply.md) for resource management
 2. Understand [Architecture Overview](architecture/overview.md)
 3. Explore [Design Patterns](architecture/patterns.md)
 4. Practice with [Multi-Resource Example](examples/multi-resource.md)
 
 ### Advanced
+
 1. Study [Backend Package](packages/backend.md) internals
 2. Implement [Custom Middleware](examples/middleware.md)
 3. Configure [Leader Election](guides/leader-election.md)
@@ -156,6 +166,7 @@ docs/
 **Scenario:** Watch ConfigMaps and log changes
 
 **Documentation:**
+
 - [Router Package](packages/router.md)
 - [Basic Controller Example](examples/basic-controller.md)
 
@@ -164,6 +175,7 @@ docs/
 **Scenario:** Manage Deployment, Service, and Ingress
 
 **Documentation:**
+
 - [Apply Package](packages/apply.md)
 - [Multi-Resource Example](examples/multi-resource.md)
 
@@ -172,6 +184,7 @@ docs/
 **Scenario:** Multiple controller replicas with leader election
 
 **Documentation:**
+
 - [Leader Election Guide](guides/leader-election.md)
 - [Architecture Overview](architecture/overview.md)
 
@@ -180,6 +193,7 @@ docs/
 **Scenario:** Implement complex business logic with finalizers
 
 **Documentation:**
+
 - [Finalizers Example](examples/finalizers.md)
 - [Resource Management Guide](guides/apply.md)
 
@@ -188,15 +202,18 @@ docs/
 ## 🔗 External Resources
 
 ### Kubernetes
+
 - [Kubernetes Documentation](https://kubernetes.io/docs/)
 - [API Reference](https://kubernetes.io/docs/reference/kubernetes-api/)
 - [Controller Patterns](https://kubernetes.io/docs/concepts/architecture/controller/)
 
 ### controller-runtime
+
 - [controller-runtime Documentation](https://pkg.go.dev/sigs.k8s.io/controller-runtime)
 - [controller-runtime Book](https://book.kubebuilder.io/reference/controller-runtime.html)
 
 ### Go
+
 - [Effective Go](https://golang.org/doc/effective_go.html)
 - [Go Code Review Comments](https://github.com/golang/go/wiki/CodeReviewComments)
 
@@ -217,18 +234,21 @@ We welcome documentation improvements!
 ## 📝 Documentation Standards
 
 ### Writing Style
+
 - Clear and concise language
 - Active voice preferred
 - Code examples for all concepts
 - Links to related documentation
 
 ### Code Examples
+
 - Complete, runnable examples
 - Proper error handling
 - Comments explaining key concepts
 - Follow project code style
 
 ### Diagrams
+
 - Use Mermaid for diagrams
 - Keep diagrams simple and focused
 - Provide text explanations
