@@ -1,0 +1,65 @@
+#:schema https://mise.jdx.dev/schema/mise.json
+# nah - Kubernetes Controller Framework
+# Inherits: go, golangci-lint from root
+#
+# Usage:
+#   mise :test           - Run tests
+#   mise :validate-ci    - Full CI validation
+#   mise :generate       - Generate deep copy methods
+
+[env]
+PROJECT_NAME = "nah"
+
+[tasks.generate]
+description = "Generate deep copy methods"
+run = "go generate ./..."
+sources = ["**/*.go", "!**/*_generated*.go"]
+outputs = ["**/*_generated*.go"]
+
+[tasks.tidy]
+description = "Tidy Go modules"
+run = "go mod tidy"
+
+[tasks.fmt]
+description = "Format Go code"
+run = "go fmt ./..."
+
+[tasks.vet]
+description = "Run go vet"
+run = "go vet ./..."
+
+[tasks.lint]
+alias = "validate"
+description = "Run golangci-lint"
+run = "golangci-lint run"
+depends = ["fmt"]
+
+[tasks.test]
+description = "Run all tests"
+run = "go test ./..."
+sources = ["**/*.go", "go.mod", "go.sum"]
+
+[tasks.test-race]
+description = "Run tests with race detector"
+run = "go test -race ./..."
+
+[tasks.test-cover]
+description = "Run tests with coverage"
+run = "go test -cover ./..."
+
+[tasks.validate-ci]
+description = "CI validation (generate, tidy, lint, check dirty)"
+run = """
+go generate ./...
+go mod tidy
+golangci-lint run
+if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
+    git status --porcelain --untracked-files=no
+    echo "Encountered dirty repo!"
+    exit 1
+fi
+"""
+
+[tasks.ci]
+description = "Full CI pipeline"
+depends = ["validate-ci", "test"]

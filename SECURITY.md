@@ -45,6 +45,7 @@ We follow coordinated disclosure practices:
 Security issues that impact the confidentiality, integrity, or availability of this library or downstream projects using it are in scope.
 
 **In scope:**
+
 - Panics or crashes in library code that can be triggered by user input
 - Resource leaks (goroutine leaks, memory leaks, file descriptor leaks)
 - API design flaws that could lead to misuse causing security issues
@@ -54,6 +55,7 @@ Security issues that impact the confidentiality, integrity, or availability of t
 - Vulnerabilities in dependencies that affect nah's functionality
 
 **Out of scope (non-exhaustive):**
+
 - Vulnerabilities requiring privileged Kubernetes cluster access without a clear escalation path
 - Issues in user-implemented controller logic (not in nah library itself)
 - Vulnerabilities in third-party dependencies not owned by this project (please report upstream)
@@ -64,6 +66,7 @@ Security issues that impact the confidentiality, integrity, or availability of t
 We will not pursue legal action against security researchers conducting good-faith research aligned with this policy.
 
 Please avoid:
+
 - Privacy violations
 - Service degradation or denial of service
 - Data destruction or corruption
@@ -74,6 +77,7 @@ Only test against your own Kubernetes clusters and data.
 ## Receiving Security Fixes
 
 Security fixes are shipped in patch releases. We recommend:
+
 - Always use the latest patch version of the library
 - Monitor release notes for security advisories
 - Enable GitHub notifications for this repository
@@ -98,27 +102,32 @@ This project follows security best practices including:
 nah is a Kubernetes controller framework. Controllers built with nah should follow these security principles:
 
 #### Resource Management
+
 - No unbounded goroutine spawning
 - Proper cleanup in error paths
 - Leak-free resource watching
 - Bounded work queues
 
 #### Input Validation
+
 - Validate all Kubernetes resource inputs
 - Sanitize data before using in commands or external systems
 - Use typed APIs (avoid unstructured access where possible)
 
 #### Concurrent Access
+
 - Thread-safe shared state access
 - Proper use of mutexes and channels
 - No data races (verified with `go test -race`)
 
 #### Error Handling
+
 - No panics in library code (library code should return errors)
 - Graceful degradation on errors
 - Proper cleanup of resources on shutdown
 
 #### RBAC and Permissions
+
 - Principle of least privilege
 - Document required RBAC permissions
 - No elevation of privileges without explicit user configuration
@@ -126,6 +135,7 @@ nah is a Kubernetes controller framework. Controllers built with nah should foll
 ### Breaking Changes and API Stability
 
 Security through API stability:
+
 - Breaking changes are documented in release notes
 - Major version bumps for breaking changes
 - Deprecation notices before removal
@@ -136,11 +146,13 @@ This helps downstream users maintain secure configurations during upgrades.
 ## Dependency Security
 
 nah depends on:
+
 - controller-runtime (Kubernetes controller framework)
 - client-go (Kubernetes client)
 - OpenTelemetry (distributed tracing)
 
 We monitor these dependencies for vulnerabilities using:
+
 - Renovate automated scanning
 - GitHub Dependabot alerts
 - Manual security review of dependency updates

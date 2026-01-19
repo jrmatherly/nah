@@ -63,14 +63,17 @@ func Apply(ctx context.Context, owner client.Object, objs ...client.Object) erro
 Applies desired state for resources, setting the owner reference.
 
 **Parameters:**
+
 - `ctx` - Context for the operation
 - `owner` - Owner object (controller resource)
 - `objs` - Desired resources to create/update
 
 **Returns:**
+
 - `error` - Error if apply fails
 
 **Behavior:**
+
 - Creates resources that don't exist
 - Updates resources with changes
 - Prunes resources no longer desired (unless `WithNoPrune()`)
@@ -78,6 +81,7 @@ Applies desired state for resources, setting the owner reference.
 - Uses three-way merge for updates
 
 **Example:**
+
 ```go
 a := apply.New(client)
 
@@ -119,24 +123,29 @@ func Ensure(ctx context.Context, obj ...client.Object) error
 Ensures resources exist without setting owner references or pruning.
 
 **Parameters:**
+
 - `ctx` - Context for the operation
 - `obj` - Resources to ensure
 
 **Returns:**
+
 - `error` - Error if ensure fails
 
 **Behavior:**
+
 - Creates resources if they don't exist
 - Updates resources if they exist
 - Does NOT set owner references
 - Does NOT prune resources
 
 **Use Cases:**
+
 - Creating cluster-scoped resources
 - Ensuring prerequisites
 - Resources without lifecycle coupling
 
 **Example:**
+
 ```go
 a := apply.New(client)
 
@@ -160,16 +169,20 @@ func WithOwnerSubContext(ownerSubContext string) Apply
 Sets a subcontext for owner references, allowing multiple controllers to manage resources.
 
 **Parameters:**
+
 - `ownerSubContext` - Subcontext identifier
 
 **Returns:**
+
 - `Apply` - Apply instance for chaining
 
 **Use Case:**
+
 - Multiple controllers managing different aspects of same resource
 - Separating concerns within a controller
 
 **Example:**
+
 ```go
 a := apply.New(client).
     WithOwnerSubContext("networking")
@@ -188,12 +201,15 @@ func WithNamespace(ns string) Apply
 Sets the default namespace for resources without explicit namespace.
 
 **Parameters:**
+
 - `ns` - Namespace name
 
 **Returns:**
+
 - `Apply` - Apply instance for chaining
 
 **Example:**
+
 ```go
 a := apply.New(client).
     WithNamespace("default")
@@ -220,12 +236,15 @@ func WithPruneGVKs(gvks ...schema.GroupVersionKind) Apply
 Limits pruning to specific GroupVersionKinds.
 
 **Parameters:**
+
 - `gvks` - GVKs to consider for pruning
 
 **Returns:**
+
 - `Apply` - Apply instance for chaining
 
 **Example:**
+
 ```go
 a := apply.New(client).
     WithPruneGVKs(
@@ -248,12 +267,15 @@ func WithPruneTypes(types ...client.Object) Apply
 Limits pruning to specific resource types (convenience method).
 
 **Parameters:**
+
 - `types` - Resource type examples
 
 **Returns:**
+
 - `Apply` - Apply instance for chaining
 
 **Example:**
+
 ```go
 a := apply.New(client).
     WithPruneTypes(&corev1.ConfigMap{}, &corev1.Secret{})
@@ -273,14 +295,17 @@ func WithNoPrune() Apply
 Disables pruning of resources.
 
 **Returns:**
+
 - `Apply` - Apply instance for chaining
 
 **Use Case:**
+
 - Additive-only resource management
 - Preserving manually created resources
 - Troubleshooting
 
 **Example:**
+
 ```go
 a := apply.New(client).WithNoPrune()
 
@@ -299,14 +324,17 @@ func FindOwner(ctx context.Context, obj client.Object) (client.Object, error)
 Finds the owner of a resource.
 
 **Parameters:**
+
 - `ctx` - Context for the operation
 - `obj` - Resource to find owner for
 
 **Returns:**
+
 - `client.Object` - Owner object
 - `error` - Error if owner not found or lookup fails
 
 **Example:**
+
 ```go
 a := apply.New(client)
 
@@ -326,13 +354,16 @@ func PurgeOrphan(ctx context.Context, obj client.Object) error
 Deletes a resource that no longer has a valid owner.
 
 **Parameters:**
+
 - `ctx` - Context for the operation
 - `obj` - Orphaned resource to delete
 
 **Returns:**
+
 - `error` - Error if purge fails
 
 **Example:**
+
 ```go
 a := apply.New(client)
 
@@ -354,12 +385,15 @@ func New(c client.Client) Apply
 Creates a new Apply instance.
 
 **Parameters:**
+
 - `c` - Kubernetes client
 
 **Returns:**
+
 - `Apply` - Apply interface implementation
 
 **Example:**
+
 ```go
 a := apply.New(backend.Client())
 ```
@@ -373,14 +407,17 @@ func Ensure(ctx context.Context, client client.Client, obj ...client.Object) err
 Convenience function for ensuring resources without creating Apply instance.
 
 **Parameters:**
+
 - `ctx` - Context for the operation
 - `client` - Kubernetes client
 - `obj` - Resources to ensure
 
 **Returns:**
+
 - `error` - Error if ensure fails
 
 **Example:**
+
 ```go
 if err := apply.Ensure(ctx, client, namespace, clusterRole); err != nil {
     return err
@@ -396,15 +433,18 @@ func AddValidOwnerChange(oldSubcontext, newSubContext string)
 Registers a valid owner subcontext migration path.
 
 **Parameters:**
+
 - `oldSubcontext` - Old subcontext identifier
 - `newSubContext` - New subcontext identifier
 
 **Use Case:**
+
 - Controller refactoring
 - Subcontext migrations
 - Ownership handoff
 
 **Example:**
+
 ```go
 // Allow migration from "old-controller" to "new-controller"
 apply.AddValidOwnerChange("old-controller", "new-controller")
@@ -430,11 +470,13 @@ metadata:
 ```
 
 **Benefits:**
+
 - Automatic garbage collection
 - Ownership tracking
 - Cascade deletion
 
 **Best Practices:**
+
 - Use Apply for managed resources
 - Use Ensure for independent resources
 - Namespace-scoped owners can only own namespace-scoped resources
@@ -444,12 +486,14 @@ metadata:
 Pruning automatically deletes resources no longer in desired state:
 
 **Enabled by default:**
+
 ```go
 // Old resources will be pruned
 a.Apply(ctx, owner, currentDesiredResources...)
 ```
 
 **Selective pruning:**
+
 ```go
 // Only prune ConfigMaps and Secrets
 a.WithPruneTypes(&corev1.ConfigMap{}, &corev1.Secret{}).
@@ -457,12 +501,14 @@ a.WithPruneTypes(&corev1.ConfigMap{}, &corev1.Secret{}).
 ```
 
 **Disabled:**
+
 ```go
 // No pruning
 a.WithNoPrune().Apply(ctx, owner, desiredResources...)
 ```
 
 **Pruning Logic:**
+
 1. List resources with owner reference
 2. Compare with desired state
 3. Delete resources not in desired state
@@ -482,6 +528,7 @@ storageApply.Apply(ctx, owner, pvcs, configMaps...)
 ```
 
 **Owner Reference Format:**
+
 ```yaml
 metadata:
   annotations:

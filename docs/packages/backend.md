@@ -38,6 +38,7 @@ type Backend interface {
 ```
 
 **Embedded Interfaces:**
+
 - `Trigger` - Trigger reconciliation for resources
 - `CacheFactory` - Access informers and caches
 - `Watcher` - Watch resource changes
@@ -55,9 +56,11 @@ func Preload(ctx context.Context) error
 Preloads the cache before starting the backend.
 
 **Parameters:**
+
 - `ctx` - Context for the operation
 
 **Returns:**
+
 - `error` - Error if preload fails
 
 ##### Start
@@ -69,12 +72,15 @@ func Start(ctx context.Context) error
 Starts the backend and begins cache synchronization.
 
 **Parameters:**
+
 - `ctx` - Context for lifecycle management
 
 **Returns:**
+
 - `error` - Error if start fails
 
 **Example:**
+
 ```go
 if err := backend.Start(ctx); err != nil {
     return fmt.Errorf("failed to start backend: %w", err)
@@ -90,14 +96,17 @@ func GVKForObject(obj runtime.Object, scheme *runtime.Scheme) (schema.GroupVersi
 Returns the GroupVersionKind for a given object.
 
 **Parameters:**
+
 - `obj` - Runtime object
 - `scheme` - Runtime scheme
 
 **Returns:**
+
 - `schema.GroupVersionKind` - The GVK for the object
 - `error` - Error if GVK cannot be determined
 
 **Example:**
+
 ```go
 gvk, err := backend.GVKForObject(pod, scheme)
 if err != nil {
@@ -129,15 +138,18 @@ func Trigger(ctx context.Context, gvk schema.GroupVersionKind, key string, delay
 Triggers reconciliation for a specific resource after an optional delay.
 
 **Parameters:**
+
 - `ctx` - Context for the operation
 - `gvk` - GroupVersionKind of the resource
 - `key` - Resource key in format "namespace/name"
 - `delay` - Delay before triggering (0 for immediate)
 
 **Returns:**
+
 - `error` - Error if trigger fails
 
 **Example:**
+
 ```go
 // Immediate trigger
 err := backend.Trigger(ctx, gvk, "default/my-pod", 0)
@@ -147,6 +159,7 @@ err := backend.Trigger(ctx, gvk, "default/my-pod", 5*time.Second)
 ```
 
 **Use Cases:**
+
 - Re-queue resources after transient failures
 - Implement exponential backoff
 - Schedule periodic reconciliation
@@ -175,15 +188,18 @@ func Watcher(ctx context.Context, gvk schema.GroupVersionKind, name string, cb C
 Registers a callback to be invoked when resources change.
 
 **Parameters:**
+
 - `ctx` - Context for the watcher lifecycle
 - `gvk` - GroupVersionKind to watch
 - `name` - Unique name for this watcher
 - `cb` - Callback function to invoke on changes
 
 **Returns:**
+
 - `error` - Error if watcher registration fails
 
 **Example:**
+
 ```go
 err := backend.Watcher(ctx, podGVK, "pod-watcher", func(
     ctx context.Context,
@@ -220,14 +236,17 @@ func GetInformerForKind(ctx context.Context, gvk schema.GroupVersionKind) (cache
 Returns the informer for a specific GVK.
 
 **Parameters:**
+
 - `ctx` - Context for the operation
 - `gvk` - GroupVersionKind to get informer for
 
 **Returns:**
+
 - `cache.SharedIndexInformer` - Informer for the GVK
 - `error` - Error if informer cannot be retrieved
 
 **Example:**
+
 ```go
 informer, err := backend.GetInformerForKind(ctx, podGVK)
 if err != nil {
@@ -260,16 +279,19 @@ type Callback func(
 ```
 
 **Parameters:**
+
 - `ctx` - Context for the callback
 - `gvk` - GroupVersionKind of the changed resource
 - `key` - Resource key ("namespace/name")
 - `obj` - The resource object
 
 **Returns:**
+
 - `runtime.Object` - Potentially modified object
 - `error` - Error if callback processing fails
 
 **Example:**
+
 ```go
 myCallback := func(
     ctx context.Context,
@@ -493,6 +515,7 @@ func indexingExample(b backend.Backend) error {
 ### Caching
 
 The backend uses Kubernetes informers for caching:
+
 - **List operations** are served from cache (fast)
 - **Get operations** are served from cache (fast)
 - **Write operations** (Create, Update, Delete) hit the API server
@@ -500,6 +523,7 @@ The backend uses Kubernetes informers for caching:
 ### Triggering Strategy
 
 Use appropriate delays:
+
 - **0 delay**: Immediate processing
 - **Short delays (1-5s)**: Quick retry on transient errors
 - **Longer delays (30s+)**: Rate limiting, periodic sync

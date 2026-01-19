@@ -37,11 +37,14 @@ This project adheres to a Code of Conduct that all contributors are expected to 
 
 1. Fork the repository on GitHub
 2. Clone your fork:
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/nah.git
    cd nah
    ```
+
 3. Add upstream remote:
+
    ```bash
    git remote add upstream https://github.com/obot-platform/nah.git
    ```
@@ -108,6 +111,7 @@ git checkout -b feature/your-feature-name
 ```
 
 Branch naming conventions:
+
 - `feature/` - New features
 - `fix/` - Bug fixes
 - `docs/` - Documentation changes
@@ -120,6 +124,7 @@ Branch naming conventions:
 2. **Add tests** for new functionality
 3. **Update documentation** for API changes
 4. **Run tests and linter** before committing:
+
    ```bash
    make test
    make validate
@@ -132,6 +137,7 @@ Branch naming conventions:
 ### General Guidelines
 
 Follow standard Go conventions and idioms:
+
 - Use `gofmt` for formatting (automatically applied)
 - Follow [Effective Go](https://golang.org/doc/effective_go.html)
 - Use meaningful variable and function names
@@ -158,6 +164,7 @@ Follow standard Go conventions and idioms:
 #### Imports
 
 Group imports in three sections:
+
 1. Standard library
 2. External packages
 3. Internal packages
@@ -179,6 +186,7 @@ import (
 
 - Document all exported types, functions, and methods
 - Start doc comments with the name of the item:
+
   ```go
   // Router manages the controller lifecycle and routes events.
   type Router struct { ... }
@@ -191,11 +199,13 @@ import (
 
 - Always handle errors explicitly
 - Wrap errors with context:
+
   ```go
   if err != nil {
       return fmt.Errorf("failed to start router: %w", err)
   }
   ```
+
 - Don't panic in library code (return errors instead)
 
 #### Configuration Patterns
@@ -386,6 +396,7 @@ for common use cases.
 ### Before Submitting
 
 1. **Sync with upstream**:
+
    ```bash
    git checkout main
    git pull upstream main
@@ -394,6 +405,7 @@ for common use cases.
    ```
 
 2. **Run all checks**:
+
    ```bash
    make test
    make validate
@@ -402,6 +414,7 @@ for common use cases.
    ```
 
 3. **Ensure no uncommitted generated files**:
+
    ```bash
    make validate-ci
    ```
@@ -409,6 +422,7 @@ for common use cases.
 ### Submitting
 
 1. Push your branch:
+
    ```bash
    git push origin your-feature-branch
    ```
@@ -450,6 +464,7 @@ for common use cases.
 ### README Updates
 
 Update README.md for:
+
 - New features
 - Changed APIs
 - New dependencies
@@ -457,6 +472,7 @@ Update README.md for:
 ### Architecture Documentation
 
 Document significant changes in:
+
 - `docs/architecture/` - Architecture decisions
 - `docs/architecture/adr/` - Architecture Decision Records
 
@@ -476,10 +492,12 @@ Document significant changes in:
 1. Update version in relevant files
 2. Update CHANGELOG.md
 3. Create and push tag:
+
    ```bash
    git tag -a v1.2.3 -m "Release v1.2.3"
    git push upstream v1.2.3
    ```
+
 4. Create GitHub release with changelog
 
 ---
