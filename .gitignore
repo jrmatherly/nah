@@ -467,3 +467,6 @@ Pipfile*
 
 .idea/
 .vscode/
+
+# Auto Claude data directory
+.auto-claude/
