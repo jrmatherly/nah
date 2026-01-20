@@ -338,3 +338,16 @@ func (s *subResourceClient) Patch(ctx context.Context, obj kclient.Object, patch
 	s.c.store(obj)
 	return nil
 }
+
+func (s *subResourceClient) Apply(ctx context.Context, obj runtime.ApplyConfiguration, opts ...kclient.SubResourceApplyOption) error {
+	ctx, span := tracer.Start(ctx, "subResource/apply")
+	defer span.End()
+
+	// Check if the underlying writer supports Apply
+	if applier, ok := s.writer.(interface {
+		Apply(context.Context, runtime.ApplyConfiguration, ...kclient.SubResourceApplyOption) error
+	}); ok {
+		return applier.Apply(ctx, obj, opts...)
+	}
+	return errors.New("underlying SubResourceWriter does not support Apply operation")
+}

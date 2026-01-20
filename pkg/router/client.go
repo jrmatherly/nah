@@ -158,6 +158,25 @@ func (s *subResourceClient) Create(ctx context.Context, obj kclient.Object, subR
 	return s.writer.Create(ctx, obj, subResource, opts...)
 }
 
+func (s *subResourceClient) Apply(ctx context.Context, obj runtime.ApplyConfiguration, opts ...kclient.SubResourceApplyOption) error {
+	// ApplyConfiguration doesn't have standard metadata accessors like Object does.
+	// We'll register the watch with the underlying runtime.Object representation if available.
+	if runtimeObj, ok := obj.(runtime.Object); ok {
+		if clientObj, ok := runtimeObj.(kclient.Object); ok {
+			if err := s.registry.Watch(runtimeObj, clientObj.GetNamespace(), clientObj.GetName(), nil, nil); err != nil {
+				return err
+			}
+		}
+	}
+	// Check if the underlying writer supports Apply
+	if applier, ok := s.writer.(interface {
+		Apply(context.Context, runtime.ApplyConfiguration, ...kclient.SubResourceApplyOption) error
+	}); ok {
+		return applier.Apply(ctx, obj, opts...)
+	}
+	return fmt.Errorf("underlying SubResourceWriter does not support Apply operation")
+}
+
 type reader struct {
 	scheme   *runtime.Scheme
 	client   kclient.Client
